@@ -11,10 +11,14 @@ namespace un_miaz
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+
+        private Texture2D background;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 550;
+            graphics.PreferredBackBufferHeight = 400;
             Content.RootDirectory = "Content";
         }
 
@@ -39,7 +43,7 @@ namespace un_miaz
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            background = Content.Load<Texture2D>("bg");
             // TODO: use this.Content to load your game content here
         }
 
@@ -76,6 +80,9 @@ namespace un_miaz
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, 550, 400), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
