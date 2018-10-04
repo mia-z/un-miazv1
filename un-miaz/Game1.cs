@@ -12,14 +12,19 @@ namespace un_miaz
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private Texture2D background;
+        private Texture2D background, menuBackground;
+        private SpriteFont gameFont;
+
+        private int gameState; //1=main menu, 2=game, 3=pause menu
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 550;
-            graphics.PreferredBackBufferHeight = 400;
+            graphics.PreferredBackBufferWidth = 550; //Window width
+            graphics.PreferredBackBufferHeight = 400; //Window height
             Content.RootDirectory = "Content";
+
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -31,7 +36,7 @@ namespace un_miaz
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            gameState = 1;
             base.Initialize();
         }
 
@@ -43,7 +48,11 @@ namespace un_miaz
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             background = Content.Load<Texture2D>("bg");
+            menuBackground = Content.Load<Texture2D>("bgmenu");
+            gameFont = Content.Load<SpriteFont>("GameFont");
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -81,7 +90,18 @@ namespace un_miaz
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(background, new Rectangle(0, 0, 550, 400), Color.White);
+            switch (gameState)
+            {
+                case 1:
+                    spriteBatch.Draw(menuBackground, new Rectangle(0,0,550,400), Color.White);
+                    spriteBatch.DrawString(gameFont, "Play", new Vector2((GraphicsDevice.Viewport.Width / 2) - 15, 140), Color.Black);
+                    break;
+                case 2:
+                    spriteBatch.Draw(background, new Rectangle(0, 0, 550, 400), Color.White);
+                    break;
+                case 3:
+                    break;
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
